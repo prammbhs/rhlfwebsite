@@ -19,10 +19,22 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-const instance = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+// Comment out or remove the Razorpay instance creation
+// const instance = new Razorpay({
+//   key_id: process.env.RAZORPAY_KEY_ID,
+//   key_secret: process.env.RAZORPAY_KEY_SECRET,
+// });
+
+// Add a mock Razorpay instance
+const instance = {
+  orders: {
+    create: (options) => {
+      console.log('Mock order created:', options);
+      return Promise.resolve({ id: 'mock_order_id_' + Date.now() });
+    }
+  },
+  // Add other methods as needed
+};
 
 const listId = process.env.MAILCHIMP_LIST_ID;
 mailchimp.setConfig({
